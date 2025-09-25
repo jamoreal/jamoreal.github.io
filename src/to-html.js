@@ -2,8 +2,8 @@ const fs = require('fs-extra')
 const ejs = require('ejs')
 
 function parseToHtml(items) {
-  fs.emptyDirSync('./dist')
-  fs.emptyDirSync('./dist/s')
+  fs.ensureDirSync('./dist')
+  fs.ensureDirSync('./dist/s')
 
   fs.copyFileSync('./tpls/favicon.png', './dist/favicon.png')
   fs.copyFileSync('./tpls/logo.png', './dist/logo.png')
