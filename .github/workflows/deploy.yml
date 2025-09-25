@@ -42,10 +42,37 @@ jobs:
       - name: Install dependencies
         run: npm ci # 推荐使用 `npm ci`（比 `npm install` 更快、更可靠）
 
+        # ===== 新增：下载之前的构建文件 =====
+      - name: Download previous build files
+        uses: actions/download-artifact@v3
+        with:
+          name: previous-build
+          path: ./previous-dist
+        continue-on-error: true  # 如果是第一次构建，没有之前的文件就跳过
+      
+      # ===== 新增：恢复之前的文件到构建目录 =====
+      - name: Restore previous files
+        run: |
+          mkdir -p ./dist
+          if [ -d "./previous-dist" ] && [ "$(ls -A ./previous-dist)" ]; then
+            cp -r ./previous-dist/* ./dist/
+            echo "Restored previous build files"
+          else
+            echo "No previous build files found, starting fresh"
+          fi
+
       # 4. 构建静态文件
       #    假设你的 package.json 中有 "scripts": { "build": "node build.js" }
       - name: Build static site
         run: npm run build # 确保此命令会生成 ./dist 目录（或你指定的输出目录）
+
+      # ===== 新增：保存当前构建作为下次的"之前版本" =====
+      - name: Upload current build as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: previous-build
+          path: ./dist
+          retention-days: 1  # 只保留1天，因为我们只需要上一次的
 
       # 5. 上传构建产物（供部署任务使用）
       #    注意：路径必须与你的构建输出目录一致（如 dist, public, build 等）
