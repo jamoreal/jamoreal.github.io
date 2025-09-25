@@ -4,7 +4,7 @@
   "description": "web spider for free",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "build": "node run.js"
   },
   "author": "",
   "license": "ISC",
