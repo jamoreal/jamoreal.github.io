@@ -39,7 +39,7 @@ jobs:
 
       # 3. 安装依赖（支持 npm / yarn / pnpm）
       - name: Install dependencies
-        run: npm ci # 推荐使用 `npm ci`（比 `npm install` 更快、更可靠）
+        run: npm install # 推荐使用 `npm ci`（比 `npm install` 更快、更可靠）
 
       # 4. 构建静态文件
       #    假设你的 package.json 中有 "scripts": { "build": "node build.js" }
