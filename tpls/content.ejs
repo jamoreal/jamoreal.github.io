@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head lang="zh-CN">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.png" />
-    <title>G6WOW</title>
+    <title><%= `G6WOW - ${title}` %></title>
+    <meta
+      name="description"
+      content="G6WOW 提供最新、最全的魔兽SF资讯内容，涵盖经典旧世、燃烧的远征、巫妖王之怒等版本。"
+    />
     <style>
       * {
         margin: 0;
@@ -47,10 +51,10 @@
     </style>
   </head>
   <body>
-    <div class="zms-main">
+    <main class="zms-main">
       <%- header %>
-      <div class="zms-title"><%= title %></div>
-      <div class="zms-content"><%- content %></div>
-    </div>
+      <header class="zms-title"><%= title %></header>
+      <article class="zms-content"><%- content %></article>
+    </main>
   </body>
 </html>

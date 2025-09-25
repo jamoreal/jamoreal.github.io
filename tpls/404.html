@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - 页面未找到</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: url('/bg.jpg') no-repeat center / cover #000;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+          sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #e4f806;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .container {
+        max-width: 600px;
+        padding: 2rem;
+      }
+
+      .error-code {
+        font-size: 10rem;
+        font-weight: 800;
+        opacity: 0.9;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 2px #000;
+      }
+
+      .message {
+        font-size: 1.8rem;
+        margin: 1rem 0;
+        opacity: 0.95;
+        text-shadow: 0 0 2px #000;
+      }
+
+      .description {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.85;
+        text-shadow: 0 0 2px #000;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background-color: white;
+        color: #000;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="error-code">404</div>
+      <h1 class="message">页面未找到</h1>
+      <p class="description">你访问的页面可能已被删除、重命名，或者暂时不可用。</p>
+      <a href="/" class="btn">返回首页</a>
+    </div>
+  </body>
+</html>

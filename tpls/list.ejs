@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head lang="zh-CN">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.png" />
-    <title>G6WOW</title>
+    <title><%= page === 1 ? 'G6WOW - 最新资讯' : `G6WOW - 第 ${page} 页` %></title>
+    <meta
+      name="description"
+      content="<%= page === 1 ? 'G6WOW 提供最新、最全的魔兽SF资讯内容，涵盖经典旧世、燃烧的远征、巫妖王之怒等版本。' : `G6WOW 资讯列表第 ${page} 页，持续更新魔兽SF资讯内容。` %>"
+    />
     <style>
       * {
         margin: 0;
@@ -96,9 +100,9 @@
     </script>
   </head>
   <body>
-    <div class="zms-main">
+    <main class="zms-main">
       <%- header %>
-      <div class="zms-page">
+      <nav aria-label="分页导航" class="zms-page">
         <!-- 首页 -->
         <a href="p1.html">首页</a>
 
@@ -118,7 +122,7 @@
 
         <!-- 尾页 -->
         <a href="p<%= pagenum %>.html">尾页</a>
-      </div>
+      </nav>
 
       <div class="zms-list">
         <% for(let item of items) { %>
@@ -128,20 +132,19 @@
         </a>
         <% } %>
       </div>
-      <div class="zms-page">
+
+      <nav aria-label="分页导航" class="zms-page">
         <a href="p1.html">首页</a>
         <a href="p<%= Math.max(1, page - 1) %>.html">上一页</a>
-        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> 
-        <% for (var i = start; i <= end; i++) { %> 
-          <% if (i === page) { %>
-          <span class="cur"><%= i %></span>
-          <% } else { %>
-          <a href="p<%= i %>.html"><%= i %></a>
-          <% } %>
-        <% } %>
+        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> <% for (var
+        i = start; i <= end; i++) { %> <% if (i === page) { %>
+        <span class="cur"><%= i %></span>
+        <% } else { %>
+        <a href="p<%= i %>.html"><%= i %></a>
+        <% } %> <% } %>
         <a href="p<%= Math.min(pagenum, page + 1) %>.html">下一页</a>
         <a href="p<%= pagenum %>.html">尾页</a>
-      </div>
-    </div>
+      </nav>
+    </main>
   </body>
 </html>
