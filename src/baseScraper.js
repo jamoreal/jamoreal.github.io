@@ -1,5 +1,5 @@
 const fs = require('fs-extra')
-const { loadHtml, isInRecentDays } = require('../utils/util')
+const { loadHtml, isInRecentDays, isChinese } = require('../utils/util')
 const cheerio = require('cheerio')
 const dayjs = require('dayjs')
 
@@ -56,7 +56,7 @@ class BaseScraper {
         try {
           const { title, link, time } = await this.processItem(item, $)
 
-          if (title?.length >= 10 && dayjs(time).isBefore(dayjs())) {
+          if (title?.length >= 10 && dayjs(time).isBefore(dayjs()) && isChinese(title)) {
             if (this.lastTime && dayjs(time).isBefore(dayjs(this.lastTime))) {
               console.log('已查询到上次的位置')
               const mergeData = [...this.newData, ...this.oldData].filter((item) =>

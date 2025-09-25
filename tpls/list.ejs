@@ -129,24 +129,17 @@
         <% } %>
       </div>
       <div class="zms-page">
-        <!-- 首页 -->
         <a href="p1.html">首页</a>
-
-        <!-- 上一页 -->
         <a href="p<%= Math.max(1, page - 1) %>.html">上一页</a>
-
-        <!-- 页码列表：显示当前页前后5页，限制在1~pagenum范围内 -->
-        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> <% for (var
-        i = start; i <= end; i++) { %> <% if (i === page) { %>
-        <span class="cur"><%= i %></span>
-        <% } else { %>
-        <a href="p<%= i %>.html"><%= i %></a>
-        <% } %> <% } %>
-
-        <!-- 下一页 -->
+        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> 
+        <% for (var i = start; i <= end; i++) { %> 
+          <% if (i === page) { %>
+          <span class="cur"><%= i %></span>
+          <% } else { %>
+          <a href="p<%= i %>.html"><%= i %></a>
+          <% } %>
+        <% } %>
         <a href="p<%= Math.min(pagenum, page + 1) %>.html">下一页</a>
-
-        <!-- 尾页 -->
         <a href="p<%= pagenum %>.html">尾页</a>
       </div>
     </div>

@@ -117,3 +117,8 @@ exports.getUUID = () => {
   uuidSet.add(uuid)
   return uuid
 }
+
+exports.isChinese = (str) => {
+  const chineseChars = str.match(/[\u4e00-\u9fff]/g)
+  return chineseChars?.length >= 3
+}
