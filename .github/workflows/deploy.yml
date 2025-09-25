@@ -25,7 +25,7 @@ jobs:
     name: Build static site
     runs-on: ubuntu-latest # 使用最新的 Ubuntu 虚拟环境
     env:
-      TZ: 'Asia/Shanghai'  # 👈 关键！设置为中国时区
+      TZ: 'Asia/Shanghai'  # 关键！设置为中国时区
     steps:
       # 1. 检出仓库代码
       - name: Checkout latest code
@@ -52,12 +52,14 @@ jobs:
         run: npm ci # 推荐使用 `npm ci`（比 `npm install` 更快、更可靠）
 
         # ===== 新增：下载之前的构建文件 =====
-      - name: Download previous build files
-        uses: actions/download-artifact@v4
+      - name: Download previous build artifact
+        uses: dawidd6/action-download-artifact@v3
         with:
+          workflow: ${{ github.workflow }}.yml  # 自动获取当前 workflow 文件名
           name: previous-build
+          workflow_conclusion: success
           path: ./previous-dist
-        continue-on-error: true  # 如果是第一次构建，没有之前的文件就跳过
+        continue-on-error: true  # 首次运行时没有 artifact 也不失败
       
       # ===== 新增：恢复之前的文件到构建目录 =====
       - name: Restore previous files
@@ -81,7 +83,7 @@ jobs:
         with:
           name: previous-build
           path: ./dist
-          retention-days: 1  # 只保留1天，因为我们只需要上一次的
+          retention-days: 2  # 保留2天
 
       # 5. 上传构建产物（供部署任务使用）
       #    注意：路径必须与你的构建输出目录一致（如 dist, public, build 等）

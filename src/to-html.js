@@ -2,8 +2,8 @@ const fs = require('fs-extra')
 const ejs = require('ejs')
 
 function parseToHtml(items) {
-  fs.ensureDirSync('./dist')
-  fs.ensureDirSync('./dist/s')
+  fs.emptyDirSync('./dist')
+  fs.emptyDirSync('./dist/s')
   const listTpl = fs.readFileSync('./tpls/list.ejs', 'utf8')
   const contentTpl = fs.readFileSync('./tpls/content.ejs', 'utf8')
   const headerTpl = fs.readFileSync('./tpls/header.ejs', 'utf8')
