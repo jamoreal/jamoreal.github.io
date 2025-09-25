@@ -42,7 +42,7 @@ function dedupeByTitle(arr, threshold = 0.9) {
     const currentTitle = item.title
     for (const keptTitle of kept) {
       if (getSimilarity(currentTitle, keptTitle) >= threshold) {
-        console.log('发现相似标题：' + currentTitle + '，过滤掉....')
+        // console.log('发现相似标题：' + currentTitle + '，过滤掉....')
         return false
       }
     }

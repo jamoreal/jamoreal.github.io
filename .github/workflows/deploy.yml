@@ -28,8 +28,17 @@ jobs:
       TZ: 'Asia/Shanghai'  # 👈 关键！设置为中国时区
     steps:
       # 1. 检出仓库代码
-      - name: Checkout repository
+      - name: Checkout latest code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Rebase onto latest main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
 
       # 2. 设置 Node.js 环境
       - name: Setup Node.js
@@ -79,15 +88,17 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # ✅ 确保这个路径存在且包含 index.html！
+          path: ./dist
       
       - name: Auto commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update build artifacts [skip ci]"
-          file_pattern: "data/**"
-          skip_dirty_check: true,
-          push_options: '--force'
+          commit_message: 'chore: update build artifacts [skip ci]'
+          file_pattern: 'data/**'
+          skip_dirty_check: true
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: jamoreal <171302883+jamoreal@users.noreply.github.com>
 
   # =============
   # 任务 2: 部署到 GitHub Pages
