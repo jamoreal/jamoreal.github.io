@@ -86,7 +86,8 @@ jobs:
         with:
           commit_message: "chore: update build artifacts [skip ci]"
           file_pattern: "data/**"
-          skip_dirty_check: true
+          skip_dirty_check: true,
+          push_options: '--force'
 
   # =============
   # 任务 2: 部署到 GitHub Pages
