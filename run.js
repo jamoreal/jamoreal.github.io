@@ -55,6 +55,7 @@ function dedupeByTitle(arr, threshold = 0.9) {
 function getCleanContent(content) {
   const $ = cheerio.load(content)
   $('img').remove()
+  $('#copyright').remove()
   return $.html()
 }
 
@@ -118,3 +119,5 @@ async function boostrap() {
 }
 
 boostrap()
+
+// toHtml.parseToHtml([{ title: 'eoqejq', time: '1231', content: '13132132' }])

@@ -4,6 +4,10 @@ const ejs = require('ejs')
 function parseToHtml(items) {
   fs.emptyDirSync('./dist')
   fs.emptyDirSync('./dist/s')
+
+  fs.copyFileSync('./tpls/favicon.png', './dist/favicon.png')
+  fs.copyFileSync('./tpls/logo.png', './dist/logo.png')
+
   const listTpl = fs.readFileSync('./tpls/list.ejs', 'utf8')
   const contentTpl = fs.readFileSync('./tpls/content.ejs', 'utf8')
   const headerTpl = fs.readFileSync('./tpls/header.ejs', 'utf8')
