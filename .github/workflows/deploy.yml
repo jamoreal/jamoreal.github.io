@@ -24,7 +24,8 @@ jobs:
   build:
     name: Build static site
     runs-on: ubuntu-latest # 使用最新的 Ubuntu 虚拟环境
-
+    env:
+      TZ: 'Asia/Shanghai'  # 👈 关键！设置为中国时区
     steps:
       # 1. 检出仓库代码
       - name: Checkout repository
