@@ -29,6 +29,11 @@ function parseToHtml(items) {
       pagenum,
       header
     })
+    
+    if (i == 1) {
+      fs.writeFileSync(`./dist/index.html`, html)
+    }
+
     fs.writeFileSync(`./dist/p${i}.html`, html)
   }
 }

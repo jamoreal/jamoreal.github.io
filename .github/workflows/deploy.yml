@@ -1,45 +1,75 @@
-name: Deploy Node.js App to GitHub Pages # 工作流的名称
+# 工作流名称：部署 Node.js 应用到 GitHub Pages
+name: Deploy zhaomoshou to GitHub Pages
 
-# 指定触发条件：当代码推送到 main 分支时触发工作流
+# 触发条件
 on:
+  # 当推送到 main 分支时自动触发
   push:
-    branches: ['main'] # 如果你的主分支叫 master，则修改为 master
-  workflow_dispatch: # 添加这一行以支持手动触发
+    branches: ['main'] # 如果你的默认分支是 master，请改为 ['master']
 
-# 设置工作流的权限，允许向 gh-pages 分支写入代码
+  # 允许在 GitHub Actions 界面手动触发（用于调试或强制重新部署）
+  workflow_dispatch:
+
+# 全局权限设置（必须！用于安全地部署到 GitHub Pages）
 permissions:
-  contents: write
+  contents: read # 允许读取仓库代码
+  pages: write # 允许写入 GitHub Pages
+  id-token: write # 允许使用 OIDC 进行身份验证（安全令牌）
 
-# 定义要执行的任务
+# 定义工作流中的任务（Jobs）
 jobs:
-  build-and-deploy:
-    # 任务在最新版本的 Ubuntu 虚拟机中运行
-    runs-on: ubuntu-latest
+  # =============
+  # 任务 1: 构建静态文件
+  # =============
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 虚拟环境
 
-    # 定义任务执行的步骤序列
     steps:
-      # 步骤1：检出你的仓库代码到虚拟机中
-      - name: Checkout code
+      # 1. 检出仓库代码
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 步骤2：设置 Node.js 环境
+      # 2. 设置 Node.js 环境
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # 建议指定为你项目使用的Node.js版本，如16, 18等
+          node-version: '22' # 使用你项目所需的 Node.js 版本
+          cache: 'npm' # 自动缓存 node_modules，加速后续构建
 
-      # 步骤3：安装项目依赖（如果项目有package.json）
+      # 3. 安装依赖（支持 npm / yarn / pnpm）
       - name: Install dependencies
-        run: npm install # 如果你的项目使用npm，也可以用 yarn install 或 pnpm install
+        run: npm ci # 推荐使用 `npm ci`（比 `npm install` 更快、更可靠）
 
-      # 步骤4：运行你的Node.js脚本并构建静态文件
-      # 请确保你的package.json中已配置好构建脚本，或直接使用你的构建命令（如：node generate-site.js）
-      - name: Run build script
-        run: npm run build # 这是最常用的命令，实际命令请根据你的项目确定
+      # 4. 构建静态文件
+      #    假设你的 package.json 中有 "scripts": { "build": "node build.js" }
+      - name: Build static site
+        run: npm run build # 确保此命令会生成 ./dist 目录（或你指定的输出目录）
 
-      # 步骤5：将构建出的静态文件部署到 GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3 # 一个非常流行的部署Action
+      # 5. 上传构建产物（供部署任务使用）
+      #    注意：路径必须与你的构建输出目录一致（如 dist, public, build 等）
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub自动提供的令牌进行认证
-          publish_dir: ./dist # 关键！这里替换成你的Node.js脚本生成的静态文件的目录名，例如 'public', 'build', 'out' 等
+          path: ./dist # ✅ 确保这个路径存在且包含 index.html！
+
+  # =============
+  # 任务 2: 部署到 GitHub Pages
+  # =============
+  deploy:
+    name: Deploy to GitHub Pages
+    # 依赖 build 任务，只有 build 成功才会执行 deploy
+    needs: build
+
+    # 指定运行环境（必须与 GitHub Pages 集成）
+    environment:
+      name: github-pages # 环境名称（会在仓库 Settings > Environments 中显示）
+      url: ${{ steps.deployment.outputs.page_url }} # 部署成功后显示可点击的网站链接
+
+    runs-on: ubuntu-latest
+
+    # 部署步骤（必须独立，不能与构建混在一起）
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # GitHub 官方部署 Action（无需分支，更安全）
