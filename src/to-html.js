@@ -2,8 +2,8 @@ const fs = require('fs-extra')
 const ejs = require('ejs')
 
 function parseToHtml(items) {
-  // fs.emptyDirSync('./dist')
-  // fs.emptyDirSync('./dist/s')
+  fs.ensureDirSync('./dist')
+  fs.ensureDirSync('./dist/s')
   const listTpl = fs.readFileSync('./tpls/list.ejs', 'utf8')
   const contentTpl = fs.readFileSync('./tpls/content.ejs', 'utf8')
   const headerTpl = fs.readFileSync('./tpls/header.ejs', 'utf8')
@@ -29,7 +29,7 @@ function parseToHtml(items) {
       pagenum,
       header
     })
-    
+
     if (i == 1) {
       fs.writeFileSync(`./dist/index.html`, html)
     }
