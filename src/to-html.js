@@ -7,6 +7,8 @@ function parseToHtml(items) {
 
   fs.copyFileSync('./tpls/favicon.png', './dist/favicon.png')
   fs.copyFileSync('./tpls/logo.png', './dist/logo.png')
+  fs.copyFileSync('./tpls/bg.jpg', './dist/bg.jpg')
+  fs.copyFileSync('./tpls/nv.png', './dist/nv.png')
 
   const listTpl = fs.readFileSync('./tpls/list.ejs', 'utf8')
   const contentTpl = fs.readFileSync('./tpls/content.ejs', 'utf8')
