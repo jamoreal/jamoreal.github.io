@@ -1,9 +1,16 @@
 const fs = require('fs-extra')
 const ejs = require('ejs')
+const dayjs = require('dayjs')
 
 function parseToHtml(items) {
-  fs.ensureDirSync('./dist')
-  fs.ensureDirSync('./dist/s')
+  const hour = dayjs().hour()
+  if (hour == 23 || hour == 0) {
+    fs.emptyDirSync('./dist')
+    fs.emptyDirSync('./dist/s')
+  } else {
+    fs.ensureDirSync('./dist')
+    fs.ensureDirSync('./dist/s')
+  }
 
   fs.copyFileSync('./tpls/favicon.png', './dist/favicon.png')
   fs.copyFileSync('./tpls/logo.png', './dist/logo.png')
