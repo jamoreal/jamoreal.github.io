@@ -1,0 +1,44 @@
+name: Deploy Node.js App to GitHub Pages # 工作流的名称
+
+# 指定触发条件：当代码推送到 main 分支时触发工作流
+on:
+  push:
+    branches: ['main'] # 如果你的主分支叫 master，则修改为 master
+
+# 设置工作流的权限，允许向 gh-pages 分支写入代码
+permissions:
+  contents: write
+
+# 定义要执行的任务
+jobs:
+  build-and-deploy:
+    # 任务在最新版本的 Ubuntu 虚拟机中运行
+    runs-on: ubuntu-latest
+
+    # 定义任务执行的步骤序列
+    steps:
+      # 步骤1：检出你的仓库代码到虚拟机中
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # 建议指定为你项目使用的Node.js版本，如16, 18等
+
+      # 步骤3：安装项目依赖（如果项目有package.json）
+      - name: Install dependencies
+        run: npm install # 如果你的项目使用npm，也可以用 yarn install 或 pnpm install
+
+      # 步骤4：运行你的Node.js脚本并构建静态文件
+      # 请确保你的package.json中已配置好构建脚本，或直接使用你的构建命令（如：node generate-site.js）
+      - name: Run build script
+        run: npm run build # 这是最常用的命令，实际命令请根据你的项目确定
+
+      # 步骤5：将构建出的静态文件部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # 一个非常流行的部署Action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub自动提供的令牌进行认证
+          publish_dir: ./dist # 关键！这里替换成你的Node.js脚本生成的静态文件的目录名，例如 'public', 'build', 'out' 等
