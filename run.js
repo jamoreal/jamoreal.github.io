@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const dayjs = require('dayjs')
 const path = require('path')
 const md5 = require('blueimp-md5')
+const cheerio = require('cheerio')
 const wow086 = require('./src/086wow.net.js')
 const wow200 = require('./src/200wow.com.js')
 const wow118 = require('./src/118wow.cc.js')
@@ -52,8 +53,9 @@ function dedupeByTitle(arr, threshold = 0.9) {
 }
 
 function getCleanContent(content) {
-  // TODO 清理内容中的超链接和style样式
-  return content
+  const $ = cheerio.load(content)
+  $('img').remove()
+  return $.html()
 }
 
 function getUnPornItems(data) {
