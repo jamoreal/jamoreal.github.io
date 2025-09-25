@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>找魔兽</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+          sans-serif;
+        background: url('https://www.18wow.com/template/test999_game_16061201/999test_cn_img/extend/t9_bg.jpg')
+          no-repeat center / cover #000;
+        color: #000;
+        line-height: 1.6;
+      }
+
+      .zms-main {
+        width: 900px;
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+
+      .zms-title {
+        background-color: #fff;
+        border-bottom: 1px solid #ededed;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .zms-content {
+        padding: 20px;
+        background-color: #fff;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="zms-main">
+      <%- header %>
+      <div class="zms-title"><%= title %></div>
+      <div class="zms-content"><%- content %></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>找魔兽</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+          sans-serif;
+        background: url('https://www.18wow.com/template/test999_game_16061201/999test_cn_img/extend/t9_bg.jpg')
+          no-repeat center / cover #000;
+        color: #000;
+        line-height: 1.6;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .zms-main {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 20px 0;
+      }
+
+      .zms-item {
+        padding: 12px 20px;
+        background: #fff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        color: #333;
+        border-bottom: 1px solid #ededed;
+      }
+
+      .zms-item:hover {
+        background-color: #ffffe9;
+      }
+
+      .zms-item .title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .zms-item .time {
+        width: 150px;
+        text-align: right;
+      }
+
+      .zms-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin: 5px 0;
+        background-color: #fff;
+        padding: 8px 0;
+        font-size: 15px;
+      }
+
+      .zms-page a {
+        padding: 4px 14px;
+        color: #000;
+        cursor: pointer;
+        border: 1px solid #ddd;
+      }
+
+      .zms-page a:hover {
+        background-color: #ffffe9;
+      }
+
+      .zms-page span.cur {
+        padding: 4px 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="zms-main">
+      <%- header %>
+      <div class="zms-page">
+        <!-- 首页 -->
+        <a href="p1.html">首页</a>
+
+        <!-- 上一页 -->
+        <a href="p<%= Math.max(1, page - 1) %>.html">上一页</a>
+
+        <!-- 页码列表：显示当前页前后5页，限制在1~pagenum范围内 -->
+        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> <% for (var
+        i = start; i <= end; i++) { %> <% if (i === page) { %>
+        <span class="cur"><%= i %></span>
+        <% } else { %>
+        <a href="p<%= i %>.html"><%= i %></a>
+        <% } %> <% } %>
+
+        <!-- 下一页 -->
+        <a href="p<%= Math.min(pagenum, page + 1) %>.html">下一页</a>
+
+        <!-- 尾页 -->
+        <a href="p<%= pagenum %>.html">尾页</a>
+      </div>
+
+      <div class="zms-list">
+        <% for(let item of items) { %>
+        <a class="zms-item" href="s/<%= item.id %>.html" target="_blank">
+          <div class="title"><%= item.title %></div>
+          <div class="time"><%= item.time %></div>
+        </a>
+        <% } %>
+      </div>
+      <div class="zms-page">
+        <!-- 首页 -->
+        <a href="p1.html">首页</a>
+
+        <!-- 上一页 -->
+        <a href="p<%= Math.max(1, page - 1) %>.html">上一页</a>
+
+        <!-- 页码列表：显示当前页前后5页，限制在1~pagenum范围内 -->
+        <% var start = Math.max(1, page - 5); var end = Math.min(pagenum, page + 5); %> <% for (var
+        i = start; i <= end; i++) { %> <% if (i === page) { %>
+        <span class="cur"><%= i %></span>
+        <% } else { %>
+        <a href="p<%= i %>.html"><%= i %></a>
+        <% } %> <% } %>
+
+        <!-- 下一页 -->
+        <a href="p<%= Math.min(pagenum, page + 1) %>.html">下一页</a>
+
+        <!-- 尾页 -->
+        <a href="p<%= pagenum %>.html">尾页</a>
+      </div>
+    </div>
+  </body>
+</html>
