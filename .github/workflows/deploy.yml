@@ -12,7 +12,7 @@ on:
 
 # 全局权限设置（必须！用于安全地部署到 GitHub Pages）
 permissions:
-  contents: read # 允许读取仓库代码
+  contents: write # 允许读取仓库代码
   pages: write # 允许写入 GitHub Pages
   id-token: write # 允许使用 OIDC 进行身份验证（安全令牌）
 
@@ -53,6 +53,13 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist # ✅ 确保这个路径存在且包含 index.html！
+      
+      - name: Auto commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update build artifacts [skip ci]"
+          file_pattern: "data/**"
+          skip_dirty_check: true
 
   # =============
   # 任务 2: 部署到 GitHub Pages
