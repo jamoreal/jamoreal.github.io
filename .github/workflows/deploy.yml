@@ -3,6 +3,10 @@ name: Deploy zhaomoshou to GitHub Pages
 
 # 触发条件
 on:
+  # 定时触发：每 30 分钟一次
+  schedule:
+    - cron: '*/30 * * * *'
+
   # 当推送到 main 分支时自动触发
   push:
     branches: ['main'] # 如果你的默认分支是 master，请改为 ['master']
