@@ -55,7 +55,7 @@ jobs:
       - name: Download previous build artifact
         uses: dawidd6/action-download-artifact@v3
         with:
-          workflow: ${{ github.workflow }}.yml  # 自动获取当前 workflow 文件名
+          workflow: deploy.yml
           name: previous-build
           workflow_conclusion: success
           path: ./previous-dist
