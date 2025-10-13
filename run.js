@@ -56,7 +56,7 @@ function getCleanContent(content) {
   const $ = cheerio.load(content)
   $('img').remove()
   $('#copyright').remove()
-  return $.html()
+  return $.html().replace(/&amp;/g, '&')
 }
 
 function getUnPornItems(data) {
